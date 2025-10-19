@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Dian Saputri</title>
+<style>
+  body {
+    background-color: black;
+    color: white;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  #container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+  }
+
+  #dear, #for {
+    font-size: 1.2em;
+    opacity: 0.8;
+    margin-bottom: 20px;
+  }
+
+  #text {
+    font-size: 1.1em;
+    line-height: 1.7em;
+    white-space: pre-line;
+    text-align: center;
+    display: inline-block;
+  }
+
+  button {
+    background-color: #111;
+    border: 1px solid white;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 50px;
+  }
+
+  button:hover {
+    background-color: white;
+    color: black;
+  }
+</style>
+</head>
+<body>
+
+<div id="container">
+  <div id="dear">dear hayyan,</div>
+  <div id="text"></div>
+  <div id="for"><br>for Dian Saputri</div>
+  <button id="playBtn">🎵 Play Music & Start</button>
+</div>
+
+<!-- 🎵 Musik utama -->
+<audio id="bgm" preload="auto" loop>
+  <source src="river.mp3" type="audio/mpeg">
+  Browser kamu tidak mendukung pemutar musik.
+</audio>
+
+<!-- 💬 Efek suara ketikan -->
+<audio id="typeSound" preload="auto">
+  <source src="type.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const text = `
+Kadang perpisahan bukan tentang menyerah,
+tapi tentang memberi ruang untuk kebahagiaan yang lebih besar.
+
+Aku senang jika kamu bahagia, meski bukan denganku.
+Namun, aku tetap di sini — di tempat pertama kali menunggumu,
+tanpa pernah benar-benar pergi.
+
+Dan jika suatu hari kamu menoleh ke belakang,
+aku masih di sini... masih menunggu kamu, dengan perasaan yang sama.
+`;
+
+const textContainer = document.getElementById("text");
+const playBtn = document.getElementById("playBtn");
+const audio = document.getElementById("bgm");
+const typeSound = document.getElementById("typeSound");
+
+// Volume musik utama normal, efek ketikan kecil
+audio.volume = 1.0;
+typeSound.volume = 0.15;
+
+let i = 0;
+
+function typeText() {
+  if (i < text.length) {
+    textContainer.innerHTML += text.charAt(i);
+    // mainkan suara ketikan hanya jika bukan spasi
+    if (text.charAt(i) !== " " && text.charAt(i) !== "\n") {
+      typeSound.currentTime = 0;
+      typeSound.play();
+    }
+    i++;
+    setTimeout(typeText, 90);
+  }
+}
+
+playBtn.addEventListener("click", () => {
+  audio.play()
+    .then(() => {
+      playBtn.style.display = "none";
+      typeText();
+    })
+    .catch(() => {
+      alert("Tekan tombol lagi untuk memulai musik 🎵");
+    });
+});
+</script>
+
+</body>
+</html>
